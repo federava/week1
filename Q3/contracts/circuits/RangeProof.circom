@@ -6,10 +6,22 @@ template RangeProof(n) {
     assert(n <= 252);
     signal input in; // this is the number to be proved inside the range
     signal input range[2]; // the two elements should be the range, i.e. [lower bound, upper bound]
+    signal aux;
     signal output out;
 
     component lt = LessEqThan(n);
     component gt = GreaterEqThan(n);
 
     // [assignment] insert your code here
+    // 1 if is gt, 0 if not
+    gt.in[0] <== in;
+    gt.in[1] <== range[0];
+
+    // 1 if is lt, 0 if not
+    lt.in[0] <== in;
+    lt.in[1] <== range[1];
+
+    aux <-- lt.out & gt.out;
+
+    aux ==> out;
 }
